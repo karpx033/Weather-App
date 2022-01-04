@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+    
     <link rel="stylesheet" href="./Sheets/style.css"/>
 </head>
 <body>
@@ -19,25 +21,22 @@
         <section class="row">
         
         <div class="col-3">
-            <form>
+            <form id="userSearch">
             <div class="form-group">
               <label for="exampleInputEmail1">Seach for a city:</label>
               <input type="search" class="form-control" id="search1">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary" id="submit">Submit</button>
           </form>
         </div>
-        <div class="col-9">
+        <div class="col-9" id="todayBox">
           <div class="card" >
-            <div class="card-header">
-              City:
-            </div>
+            <div class="card-header" id="cityName"></div>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item"></li>
-              <li class="list-group-item"></li>
-              <li class="list-group-item"></li>
-              <li class="list-group-item"></li>
-              <li class="list-group-item"></li>
+              <li class="list-group-item" id="cityTemp"></li>
+              <li class="list-group-item" id="cityWind"></li>
+              <li class="list-group-item" id="cityHumidity"></li>
+              <li class="list-group-item" id="cityUV"></li>
             </ul>
             </div>
         </div>
