@@ -95,12 +95,12 @@ var formSubmit = function (event) {
 
    var uvSearched= data.current.uvi;
    uv.textContent="UV Index: " + uvSearched;
-   console.log(uvSearched);
+  
     if (Number(uvSearched)<2) {
       uv.style.backgroundColor= "green";
     } if (Number(uvSearched)>5) {
       uv.style.backgroundColor="red";
-    } else {
+    } else if (uvSearched >2 && uvSearched<5) {
       uv.style.backgroundColor="yellow";
     }
 
@@ -142,7 +142,7 @@ var addButton = function (data) {
   cityButton.textContent=citySearched;
   previous.append(cityButton);
 
-  
+  localStorage.setItem('cities',citySearched);
 };
 
 
