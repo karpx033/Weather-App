@@ -8,6 +8,9 @@ var humidity = document.querySelector("#cityHumidity");
 var uv = document.querySelector("#cityUV");
 var date = document.querySelector("#cityDate");
 var daycal = document.querySelector("#days")
+var previous = document.querySelector("#searchHistory");
+
+
 
 
 var formSubmit = function (event) {
@@ -39,6 +42,7 @@ var formSubmit = function (event) {
           
             var citySearched = data.city.name
            cityPull.textContent=citySearched;
+           addButton(data);
             newPull(data);
           });
         } else {
@@ -91,6 +95,15 @@ var formSubmit = function (event) {
 
    var uvSearched= data.current.uvi;
    uv.textContent="UV Index: " + uvSearched;
+   console.log(uvSearched);
+    if (Number(uvSearched)<2) {
+      uv.style.backgroundColor= "green";
+    } if (Number(uvSearched)>5) {
+      uv.style.backgroundColor="red";
+    } else {
+      uv.style.backgroundColor="yellow";
+    }
+
   };
 
 
@@ -123,8 +136,14 @@ var formSubmit = function (event) {
     }
   };
 
+var addButton = function (data) {
+  var citySearched = data.city.name
+  var cityButton= document.createElement("button");
+  cityButton.textContent=citySearched;
+  previous.append(cityButton);
 
-
+  
+};
 
 
 userSearch.addEventListener('submit', formSubmit);
