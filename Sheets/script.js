@@ -6,7 +6,7 @@ var temp = document.querySelector('#cityTemp');
 var wind = document.querySelector('#cityWind');
 var humidity = document.querySelector("#cityHumidity");
 var uv = document.querySelector("#cityUV");
-
+var date = document.querySelector("#cityDate");
 
 
 var formSubmit = function (event) {
@@ -33,14 +33,12 @@ var formSubmit = function (event) {
   
     fetch(apiUrl)
       .then(function (response) {
-          console.log(response);
-          console.log(apiUrl);
         if (response.ok) {
           response.json().then(function (data) {
-            displayRepos(data);
-            console.log(data);
-            console.log(data.list);
-            console.log(data.city.country);
+          
+            var citySearched = data.city.name
+           cityPull.textContent=citySearched;
+            newPull(data);
           });
         } else {
           alert('Error: ' + response.statusText);
@@ -52,13 +50,46 @@ var formSubmit = function (event) {
       });
   };
 
+  var newPull = function (pre) {
+      var lat = pre.city.coord.lat;
+      var long = pre.city.coord.lon;
+      var newApi = 'https://api.openweathermap.org/data/2.5/onecall?lat=' +lat+ '&lon='+long+'&exclude=minutely,hourly,alerts&units=imperial&appid=9d7377a1c955d3d598aa67ce107897de';
+     
+      fetch(newApi)
+      .then(function (response) {
+        if (response.ok) {
+          response.json().then(function (data) {
+            displayRepos(data);
+          });
+        } else {
+          alert('Error: ' + response.statusText);
+        }
+      })
+      .catch(function (error) {
+        alert('Unable to connect to OpenWeather');
+        
+      });
+};
 
   var displayRepos = function (data) {
-   var citySearched = data.city.name
-   cityPull.textContent=citySearched
+   console.log(data);
+    var timedate = data.current.dt;
+    var s = new Date(timedate*1000).toLocaleDateString("en-US")
+    console.log(s)
+    date.textContent= s
 
-   var tempSearched =data.list[0].main.temp;
-   cityTemp.textContent="Temperature: " +tempSearched + "°F";
+   var tempSearched =data.current.temp;
+   temp.textContent="Temperature: " +tempSearched + "°F";
+
+   var windSearched =data.current.wind_speed;
+   wind.textContent="Wind speed: " +windSearched+ " MPH";
+
+   var humiditySearched = data.current.humidity;
+   humidity.textContent="Humidity: " +humiditySearched + "%";
+
+   var uvSearched= data.current.uvi;
+   uv.textContent="UV Index: " + uvSearched;
+  
 
     // for (var i = 0; i < repos.length; i++) {
     //   var repoName = repos[i].owner.login + '/' + repos[i].name;
@@ -93,3 +124,26 @@ var formSubmit = function (event) {
 
 
 userSearch.addEventListener('submit', formSubmit);
+
+// var getWeatherData = function (place) {
+//   var apiUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + place + '&units=imperial&appid=9d7377a1c955d3d598aa67ce107897de';
+
+//   fetch(apiUrl)
+//     .then(function (response) {
+//         console.log(response);
+//         console.log(apiUrl);
+//       if (response.ok) {
+//         response.json().then(function (data) {
+//           displayRepos(data);
+//           console.log(data);
+//           console.log(data.list);
+//           console.log(data.city.country);
+//         });
+//       } else {
+//         alert('Error: ' + response.statusText);
+//       }
+//     })
+//     .catch(function (error) {
+//       alert('Unable to connect to OpenWeather');
+      
+//     });
