@@ -7,6 +7,7 @@ var wind = document.querySelector('#cityWind');
 var humidity = document.querySelector("#cityHumidity");
 var uv = document.querySelector("#cityUV");
 var date = document.querySelector("#cityDate");
+var daycal = document.querySelector("#days")
 
 
 var formSubmit = function (event) {
@@ -60,6 +61,7 @@ var formSubmit = function (event) {
         if (response.ok) {
           response.json().then(function (data) {
             displayRepos(data);
+            displayFiveDay(data);
           });
         } else {
           alert('Error: ' + response.statusText);
@@ -89,61 +91,40 @@ var formSubmit = function (event) {
 
    var uvSearched= data.current.uvi;
    uv.textContent="UV Index: " + uvSearched;
-  
+  };
 
-    // for (var i = 0; i < repos.length; i++) {
-    //   var repoName = repos[i].owner.login + '/' + repos[i].name;
-  
-    //   var repoEl = document.createElement('div');
-    //   repoEl.classList = 'list-item flex-row justify-space-between align-center';
-  
-    //   var titleEl = document.createElement('span');
-    //   titleEl.textContent = repoName;
-  
-    //   repoEl.appendChild(titleEl);
-  
-    //   var statusEl = document.createElement('span');
-    //   statusEl.classList = 'flex-row align-center';
-  
-    //   if (repos[i].open_issues_count > 0) {
-    //     statusEl.innerHTML =
-    //       "<i class='fas fa-times status-icon icon-danger'></i>" + repos[i].open_issues_count + ' issue(s)';
-    //   } else {
-    //     statusEl.innerHTML = "<i class='fas fa-check-square status-icon icon-success'></i>";
-    //   }
-  
-    //   repoEl.appendChild(statusEl);
-  
-    //   repoContainerEl.appendChild(repoEl);
-    
+
+  var displayFiveDay = function (data) {
+    for (let i = 1; i < 6; i++) {
+      var dayblock= document.createElement("div");
+
+      var dayday = data.daily[i].dt;
+      var dayDate = new Date(dayday*1000).toLocaleDateString("en-US");
+      var daycard = document.createElement("h5");
+      daycard.textContent= dayDate;
+      dayblock.append(daycard);
+
+      var dailytemp = data.daily[i].temp.day
+      var daytemp =document.createElement("h5");
+      daytemp.textContent="Temperature: " + dailytemp + "°F";
+      dayblock.append(daytemp);
+
+      var dailywind = data.daily[i].wind_speed
+      var daywind =document.createElement("h5");
+      daywind.textContent="Wind speed: " + dailywind + "MPH";
+      dayblock.append(daywind);
+
+      var dailyhumid = data.daily[i].humidity;
+      var dayhumid =document.createElement("h5");
+      dayhumid.textContent="Humidity: " + dailyhumid + "%";
+      dayblock.append(dayhumid);
+
+      daycal.append(dayblock);
+    }
   };
 
 
 
 
 
-
 userSearch.addEventListener('submit', formSubmit);
-
-// var getWeatherData = function (place) {
-//   var apiUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + place + '&units=imperial&appid=9d7377a1c955d3d598aa67ce107897de';
-
-//   fetch(apiUrl)
-//     .then(function (response) {
-//         console.log(response);
-//         console.log(apiUrl);
-//       if (response.ok) {
-//         response.json().then(function (data) {
-//           displayRepos(data);
-//           console.log(data);
-//           console.log(data.list);
-//           console.log(data.city.country);
-//         });
-//       } else {
-//         alert('Error: ' + response.statusText);
-//       }
-//     })
-//     .catch(function (error) {
-//       alert('Unable to connect to OpenWeather');
-      
-//     });
